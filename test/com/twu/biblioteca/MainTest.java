@@ -10,42 +10,45 @@ import static org.junit.Assert.*;
  */
 public class MainTest {
 
-    private Book book;
-
+    private BookOrMovie item;
     @Before
     public void setUp() {
-        book = new Book("name", "author", "2016");
-    }
-
-
-    @Test
-    public void should_be_checked_out_only_once() {
-        assertTrue(book.checkOut());
-        assertFalse(book.checkOut());
+        item = new BookOrMovie("name", "author or director", "2016", 6);
     }
 
     @Test
-    public void should_be_returned_only_once() {
-        book.checkOut();
-        assertTrue(book.returnBook());
-        assertFalse(book.returnBook());
+    public void should_check_out_a_valid_item_only_once() {
+        assertTrue(item.checkOut());
+        assertFalse(item.checkOut());
+    }
+
+    @Test
+    public void should_return_a_valid_item_only_once(){
+        item.checkOut();
+        assertTrue(item.returnItem());
+        assertFalse(item.returnItem());
     }
 
     @Test
     public void should_be_checked_out_again_after_return() {
-        book.checkOut();
-        assertTrue(book.returnBook());
-        assertTrue(book.checkOut());
+        assertTrue(item.checkOut());
+        assertTrue(item.returnItem());
+        assertTrue(item.checkOut());
     }
 
     @Test
-    public void should_check_out_a_valid_book(){
-        assertTrue(Library.findBookByName(book.getName(),true));
+    public void should_not_check_out_a_invalid_book_or_movie() {
+        assertFalse(Library.findItemByName("not exist", CHECK_OUT, BOOK_LIST));
+        assertFalse(Library.findItemByName("not exist", CHECK_OUT, MOVIE_LIST));
     }
 
     @Test
-    public void should_not_check_out_a_invalid_book() {
-        assertFalse(Library.findBookByName("not exist",true));
+    public void should_not_check_out_without_log_in(){
+
     }
 
+    public static final boolean CHECK_OUT = true;
+    public static final boolean RETURN_ITEM = false;
+    public static final boolean BOOK_LIST = true;
+    public static final boolean MOVIE_LIST = false;
 }
