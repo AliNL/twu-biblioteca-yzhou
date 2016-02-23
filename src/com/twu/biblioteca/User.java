@@ -9,7 +9,6 @@ public class User {
     private String userName;
     private String emailAddress;
     private String phoneNumber;
-    public static boolean loggedIn;
 
     public User(String libraryNumber, String passWord, String userName, String emailAddress, String phoneNumber) {
         this.libraryNumber = libraryNumber;
@@ -39,13 +38,4 @@ public class User {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
-    public void logIn() {
-        loggedIn = true;
-    }
-
-    public void logOut() {
-        loggedIn = false;
-    }
-
 }

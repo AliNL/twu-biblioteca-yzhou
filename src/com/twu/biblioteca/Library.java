@@ -10,6 +10,7 @@ public class Library {
     public static List<BookOrMovie> books = new ArrayList<BookOrMovie>();
     public static List<BookOrMovie> movies = new ArrayList<BookOrMovie>();
     public static List<User> users = new ArrayList<User>();
+    public static User userNow;
 
     public static boolean findItemByName(String name, boolean option, boolean whichList) {
         List<BookOrMovie> list = whichList ? books : movies;
@@ -25,16 +26,14 @@ public class Library {
     }
 
     public static boolean findItemByName(String libraryNumber, boolean option, String passWord) {
-        for (User item : users) {
-            if (libraryNumber.equals(item.getLibraryNumber())) {
-                if (!option) {
-                    item.logOut();
+        if (!option) {
+            userNow = null;
+            return true;
+        } else {
+            for (User item : users) {
+                if (libraryNumber.equals(item.getLibraryNumber()) && passWord.hashCode() == item.getPassWord()) {
+                    userNow = item;
                     return true;
-                } else {
-                    if (passWord.hashCode() == item.getPassWord()) {
-                        item.logIn();
-                        return true;
-                    }
                 }
             }
         }

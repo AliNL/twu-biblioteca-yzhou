@@ -27,19 +27,19 @@ public class BibliotecaApp {
                 ShowMessage.bookList();
                 break;
             case '3':
-                checkOutItem(BOOK);
+                checkOutOrReturn(BOOK,CHECK_OUT);
                 break;
             case '4':
-                returnItem(BOOK);
+                checkOutOrReturn(BOOK,RETURN_ITEM);
                 break;
             case '5':
                 ShowMessage.movieList();
                 break;
             case '6':
-                checkOutItem(MOVIE);
+                checkOutOrReturn(MOVIE,CHECK_OUT);
                 break;
             case '7':
-                returnItem(MOVIE);
+                checkOutOrReturn(MOVIE,RETURN_ITEM);
                 break;
             case '8':
                 userLogInOrOut(LOG_IN);
@@ -56,28 +56,18 @@ public class BibliotecaApp {
         }
     }
 
-    public static void checkOutItem(boolean bookOrMovie) {
-        if (User.loggedIn) {
+    public static void checkOutOrReturn(boolean bookOrMovie,boolean option) {
+        if (Library.userNow!=null) {
+            if(option)
             System.out.println("Please input the book/movie to check out");
+            else
+                System.out.println("Please input the book/movie to return");
             scanner.nextLine();
             String name = scanner.nextLine();
-            if (Library.findItemByName(name, CHECK_OUT, bookOrMovie))
-                ShowMessage.successfulCheckout();
+            if (Library.findItemByName(name, option, bookOrMovie))
+                ShowMessage.successfulCheckOutOrReturn(option);
             else
-                ShowMessage.unSuccessfulCheckout();
-        } else
-            System.out.println("Please log in first.");
-    }
-
-    public static void returnItem(boolean bookOrMovie) {
-        if (User.loggedIn) {
-            System.out.println("Please input the book/movie to return");
-            scanner.nextLine();
-            String name = scanner.nextLine();
-            if (Library.findItemByName(name, RETURN_ITEM, bookOrMovie))
-                ShowMessage.successfulReturn();
-            else
-                ShowMessage.unSuccessfulReturn();
+                ShowMessage.unSuccessfulCheckOutOrReturn(option);
         } else
             System.out.println("Please log in first.");
     }
