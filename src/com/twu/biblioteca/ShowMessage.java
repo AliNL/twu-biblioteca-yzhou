@@ -23,24 +23,21 @@ public class ShowMessage {
     }
 
     public static void unSuccessfulCheckOutOrReturn(boolean option) {
-        if(option)
-        System.out.println("That book/movie is not available.");
+        if (option)
+            System.out.println("That book/movie is not available.");
         else
             System.out.println("That is not a valid book/movie to return.");
     }
 
-    public static void successfulLogInOrOut(boolean option){
-        if(option)
+    public static void successfulLogInOrOut(boolean option) {
+        if (option)
             System.out.println("Log in successfully.");
         else
             System.out.println("Log out successfully.");
     }
 
-    public static void unSuccessfulLogInOrOut(boolean option){
-        if(option)
-            System.out.println("wrong library number or password");
-        else
-            System.out.println("Log out unsuccessfully.");
+    public static void unSuccessfulLogIn() {
+        System.out.println("wrong library number or password");
     }
 
     public static void mainMenu() {
@@ -65,7 +62,20 @@ public class ShowMessage {
     public static void movieList() {
         System.out.println("Here are the valid movies:");
         for (BookOrMovie item : Library.movies)
-            if (item.isNotCheckedOut())
-                System.out.println(item.getName() + "\t" + item.getAuthorOrDirector() + "\t" + item.getPublishYear() + "\t" + item.getRating());
+            if (item.isNotCheckedOut()) {
+                System.out.print(item.getName() + "\t" + item.getAuthorOrDirector() + "\t" + item.getPublishYear());
+                if (item.getRating() > 0)
+                    System.out.print("\t" + item.getRating());
+                else
+                    System.out.print("\tunrated");
+            }
+    }
+
+    public static void userInformation(User user) {
+        System.out.println("Here is your information:");
+        System.out.println("LibraryNumber:" + user.getLibraryNumber());
+        System.out.println("UserName:" + user.getUserName());
+        System.out.println("EmailAddress:" + user.getEmailAddress());
+        System.out.println("PhoneNumber:" + user.getPhoneNumber());
     }
 }

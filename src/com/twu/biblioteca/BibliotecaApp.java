@@ -48,7 +48,7 @@ public class BibliotecaApp {
                 userLogInOrOut(LOG_OUT);
                 break;
             case 'a':
-                ShowMessage.
+                ShowMessage.userInformation(Library.userNow);
             case '0':
                 return;
             default:
@@ -56,7 +56,7 @@ public class BibliotecaApp {
         }
     }
 
-    public static void checkOutOrReturn(boolean bookOrMovie,boolean option) {
+    private static void checkOutOrReturn(boolean bookOrMovie,boolean option) {
         if (Library.userNow!=null) {
             if(option)
             System.out.println("Please input the book/movie to check out");
@@ -72,15 +72,15 @@ public class BibliotecaApp {
             System.out.println("Please log in first.");
     }
 
-    public static void userLogInOrOut(boolean option) {
+    private static void userLogInOrOut(boolean option) {
         System.out.println("Please input the library number");
         String libraryNumber = scanner.next();
         System.out.println("Please input the password");
         String passWord = scanner.next();
-        if (Library.findItemByName(libraryNumber,option ,passWord))
+        if (Library.findUserByNumber(libraryNumber,option ,passWord))
             ShowMessage.successfulLogInOrOut(option);
         else
-            ShowMessage.unSuccessfulLogInOrOut(option);
+            ShowMessage.unSuccessfulLogIn();
     }
 
     public static final boolean CHECK_OUT = true;

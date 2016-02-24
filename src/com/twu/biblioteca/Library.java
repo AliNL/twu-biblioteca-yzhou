@@ -25,7 +25,7 @@ public class Library {
         return false;
     }
 
-    public static boolean findItemByName(String libraryNumber, boolean option, String passWord) {
+    public static boolean findUserByNumber(String libraryNumber, boolean option, String passWord) {
         if (!option) {
             userNow = null;
             return true;
