@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import java.util.List;
+
 /**
  * Created by 思念 on 2016/2/22.
  */
@@ -16,47 +18,36 @@ public class BookOrMovie {
         this.notCheckedOut = true;
     }
 
-    public static void Book(String name, String authorOrDirector, String publishYear) {
-        Library.books.add(new BookOrMovie(name, authorOrDirector, publishYear, -1));
+    public void getBookInformation() {
+        if (this.notCheckedOut)
+            System.out.println(this.name + "\t" + this.authorOrDirector + "\t" + this.publishYear);
     }
 
-    public static void Movie(String name, String authorOrDirector, String publishYear, double rating){
-        Library.movies.add( new BookOrMovie(name, authorOrDirector, publishYear, rating));
+    public void getMovieInformation() {
+        if (this.notCheckedOut) {
+            System.out.print(this.name + "\t" + this.authorOrDirector + "\t" + this.publishYear);
+            if (this.rating > 0)
+                System.out.println("\t" + this.rating);
+            else
+                System.out.println("\t" + "unrated");
+        }
+
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String getAuthorOrDirector() {
-        return this.authorOrDirector;
-    }
-
-    public String getPublishYear() {
-        return this.publishYear;
-    }
-
-    public double getRating() {
-        return this.rating;
-    }
-
-    public boolean isNotCheckedOut() {
-        return notCheckedOut;
-    }
-
-    public boolean checkOut() {
-        if (this.notCheckedOut)
-            this.notCheckedOut = false;
-        else
+    public boolean checkOutOrReturn(boolean option, List<BookOrMovie> list) {
+        if (this.notCheckedOut != option) {
             return false;
-        return true;
-    }
-
-    public boolean returnItem() {
-        if (!this.notCheckedOut)
-            this.notCheckedOut = true;
-        else
-            return false;
-        return true;
+        } else {
+            this.notCheckedOut = !option;
+            if (option)
+                list.add(this);
+            else
+                list.remove(this);
+            return true;
+        }
     }
 }

@@ -5,39 +5,49 @@ package com.twu.biblioteca;
  */
 public class ShowMessage {
 
+    private static String[] message = {
+            "Welcome to Biblioteca!",
+            "Select a valid option!",
+            "Please log in first.",
+
+            "Thank you! Enjoy the book.",
+            "That book is not available.",
+            "Thank you for returning the book.",
+            "That is not a valid book to return.",
+
+            "Thank you! Enjoy the movie.",
+            "That movie is not available.",
+            "Thank you for returning the movie.",
+            "That is not a valid movie to return.",
+
+            "Log in successfully.",
+            "Wrong library number or password.",
+            "Log out successfully."
+    };
+
     public static void welcome() {
-        System.out.println("Welcome to Biblioteca!");
+        System.out.println(message[0]);
         mainMenu();
     }
 
     public static void invalidOption() {
-        System.out.println("Select a valid option!");
+        System.out.println(message[1]);
         mainMenu();
     }
 
-    public static void successfulCheckOutOrReturn(boolean option) {
-        if (option)
-            System.out.println("Thank you! Enjoy the book/movie");
-        else
-            System.out.println("Thank you for returning the book/movie.");
+    public static void CheckOutOrReturn(boolean bookOrMovie, boolean option, boolean isSuccessful) {
+        int messageNumber;
+        messageNumber = bookOrMovie ? BOOK : MOVIE;
+        messageNumber += option ? CHECK_OUT : RETURN;
+        messageNumber += isSuccessful ? SUCCESSFUL : UNSUCCESSFUL;
+        System.out.println(message[messageNumber]);
     }
 
-    public static void unSuccessfulCheckOutOrReturn(boolean option) {
-        if (option)
-            System.out.println("That book/movie is not available.");
-        else
-            System.out.println("That is not a valid book/movie to return.");
-    }
-
-    public static void successfulLogInOrOut(boolean option) {
-        if (option)
-            System.out.println("Log in successfully.");
-        else
-            System.out.println("Log out successfully.");
-    }
-
-    public static void unSuccessfulLogIn() {
-        System.out.println("wrong library number or password");
+    public static void LogInOrOut(boolean option, boolean isSuccessful) {
+        int messageNumber;
+        messageNumber = option ? LOG_IN : LOG_OUT;
+        messageNumber += isSuccessful ? SUCCESSFUL : UNSUCCESSFUL;
+        System.out.println(message[messageNumber]);
     }
 
     public static void mainMenu() {
@@ -49,33 +59,35 @@ public class ShowMessage {
         System.out.println("input \"5\" to show the list of the movies not checked out.");
         System.out.println("input \"6\" to check out a movie.");
         System.out.println("input \"7\" to return a movie.");
+        System.out.println("input \"8\" to log in.");
+        System.out.println("input \"9\" to log out.");
+        System.out.println("input \"a\" to show user information.");
         System.out.println("input \"0\" to quit the application.");
     }
 
     public static void bookList() {
         System.out.println("Here are the valid books:");
         for (BookOrMovie item : Library.books)
-            if (item.isNotCheckedOut())
-                System.out.println(item.getName() + "\t" + item.getAuthorOrDirector() + "\t" + item.getPublishYear());
+            item.getBookInformation();
     }
 
     public static void movieList() {
         System.out.println("Here are the valid movies:");
         for (BookOrMovie item : Library.movies)
-            if (item.isNotCheckedOut()) {
-                System.out.print(item.getName() + "\t" + item.getAuthorOrDirector() + "\t" + item.getPublishYear());
-                if (item.getRating() > 0)
-                    System.out.print("\t" + item.getRating());
-                else
-                    System.out.print("\tunrated");
-            }
+            item.getMovieInformation();
     }
 
     public static void userInformation(User user) {
         System.out.println("Here is your information:");
-        System.out.println("LibraryNumber:" + user.getLibraryNumber());
-        System.out.println("UserName:" + user.getUserName());
-        System.out.println("EmailAddress:" + user.getEmailAddress());
-        System.out.println("PhoneNumber:" + user.getPhoneNumber());
+        user.getUserInformation();
     }
+
+    private static final int BOOK = 3;
+    private static final int MOVIE = 7;
+    private static final int CHECK_OUT = 0;
+    private static final int RETURN = 2;
+    private static final int SUCCESSFUL = 2;
+    private static final int UNSUCCESSFUL = 2;
+    private static final int LOG_IN = 11;
+    private static final int LOG_OUT = 13;
 }
