@@ -7,86 +7,67 @@ public class BibliotecaApp {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        ShowMessage.welcome();
-        AddItems.addBooksAndMovies();
-        AddItems.addUsers();
-        String option = scanner.next();
-        while (!option.contains("0")) {
-            controller(option);
-            option = scanner.next();
+        Library library = new Library();
+        AddItems.addLibrary(library);
+        ShowMessage.show(0);
+        int option = 1;
+        while (option != 0) {
+            controller(option, library);
+            if (scanner.hasNextInt())
+                option = scanner.nextInt();
+            else {
+                scanner.next();
+                option = -1;
+            }
         }
     }
 
-
-    public static void controller(String option) {
-        switch (option.charAt(0)) {
-            case '1':
+    public static void controller(int option, Library library) {
+        switch (option) {
+            case 1:
                 ShowMessage.mainMenu();
                 break;
-            case '2':
-                ShowMessage.bookList();
+            case 2:
+                ShowMessage.bookList(library);
                 break;
-            case '3':
-                checkOutOrReturn(BOOK, CHECK_OUT);
+            case 3:
+                System.out.println("Please input the book to checkout:");
+                scanner.nextLine();
+                ShowMessage.show(library.checkoutBookByName(scanner.nextLine()));
                 break;
-            case '4':
-                checkOutOrReturn(BOOK, RETURN_ITEM);
+            case 4:
+                System.out.println("Please input the book to return:");
+                scanner.nextLine();
+                ShowMessage.show(library.returnBookByName(scanner.nextLine()));
                 break;
-            case '5':
-                ShowMessage.movieList();
+            case 5:
+                ShowMessage.movieList(library);
                 break;
-            case '6':
-                checkOutOrReturn(MOVIE, CHECK_OUT);
+            case 6:
+                System.out.println("Please input the movie to checkout:");
+                scanner.nextLine();
+                ShowMessage.show(library.checkoutMovieByName(scanner.nextLine()));
                 break;
-            case '7':
-                checkOutOrReturn(MOVIE, RETURN_ITEM);
+            case 7:
+                System.out.println("Please input the movie to return:");
+                scanner.nextLine();
+                ShowMessage.show(library.returnMovieByName(scanner.nextLine()));
                 break;
-            case '8':
-                userLogInOrOut(LOG_IN);
+            case 8:
+                System.out.println("Please input your library number:");
+                String number = scanner.next();
+                System.out.println("Please input your password:");
+                ShowMessage.show(library.userLogIn(number, scanner.next()));
                 break;
-            case '9':
-                userLogInOrOut(LOG_OUT);
+            case 9:
+                ShowMessage.show(library.userLogOut());
                 break;
-            case 'a':
-                ShowMessage.userInformation(Library.userNow);
-            case '0':
+            case 10:
+                ShowMessage.show(library.showUserInformation());
+            case 0:
                 return;
             default:
-                ShowMessage.invalidOption();
+                ShowMessage.show(1);
         }
     }
-
-    public static void checkOutOrReturn(boolean bookOrMovie, boolean option) {
-        if (Library.userNow != null) {
-            if (option)
-                System.out.println("Please input the book/movie to check out");
-            else
-                System.out.println("Please input the book/movie to return");
-            scanner.nextLine();
-            String name = scanner.nextLine();
-            ShowMessage.CheckOutOrReturn(bookOrMovie, option, Library.findItemByName(name, option, bookOrMovie));
-        } else
-            System.out.println("Please log in first.");
-    }
-
-    public static void userLogInOrOut(boolean option) {
-        if (!option) {
-            Library.userNow = null;
-            ShowMessage.LogInOrOut(LOG_OUT,SUCCESSFUL);
-        } else {
-            System.out.println("Please input the library number");
-            String libraryNumber = scanner.next();
-            System.out.println("Please input the password");
-            String passWord = scanner.next();
-            ShowMessage.LogInOrOut(LOG_IN,Library.findUserByNumber(libraryNumber, passWord));
-        }
-    }
-
-    private static final boolean CHECK_OUT = true;
-    private static final boolean RETURN_ITEM = false;
-    private static final boolean BOOK = true;
-    private static final boolean MOVIE = false;
-    private static final boolean LOG_IN = true;
-    private static final boolean LOG_OUT = false;
-    private static final boolean SUCCESSFUL = true;
 }

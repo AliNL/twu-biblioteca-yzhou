@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import java.util.List;
-
 /**
  * Created by 思念 on 2016/2/22.
  */
@@ -19,34 +17,38 @@ public class BookOrMovie {
     }
 
     public void getBookInformation() {
-        if (this.notCheckedOut)
-            System.out.println(this.name + "\t" + this.authorOrDirector + "\t" + this.publishYear);
+        if (notCheckedOut)
+            System.out.println(name + "\t" + authorOrDirector + "\t" + publishYear);
     }
 
     public void getMovieInformation() {
-        if (this.notCheckedOut) {
-            System.out.print(this.name + "\t" + this.authorOrDirector + "\t" + this.publishYear);
+        if (notCheckedOut) {
+            System.out.print(name + "\t" + authorOrDirector + "\t" + publishYear);
             if (this.rating > 0)
-                System.out.println("\t" + this.rating);
+                System.out.println("\t" + rating);
             else
                 System.out.println("\t" + "unrated");
         }
-
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public boolean checkOutOrReturn(boolean option, List<BookOrMovie> list) {
-        if (this.notCheckedOut != option) {
+    public boolean checkOut() {
+        if (!notCheckedOut)
             return false;
-        } else {
-            this.notCheckedOut = !option;
-            if (option)
-                list.add(this);
-            else
-                list.remove(this);
+        else {
+            notCheckedOut = false;
+            return true;
+        }
+    }
+
+    public boolean returnItem() {
+        if (notCheckedOut)
+            return false;
+        else {
+            notCheckedOut = true;
             return true;
         }
     }

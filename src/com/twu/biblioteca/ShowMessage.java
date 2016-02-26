@@ -22,32 +22,12 @@ public class ShowMessage {
 
             "Log in successfully.",
             "Wrong library number or password.",
-            "Log out successfully."
+            "Log out successfully.",
+            ""
     };
 
-    public static void welcome() {
-        System.out.println(message[0]);
-        mainMenu();
-    }
-
-    public static void invalidOption() {
-        System.out.println(message[1]);
-        mainMenu();
-    }
-
-    public static void CheckOutOrReturn(boolean bookOrMovie, boolean option, boolean isSuccessful) {
-        int messageNumber;
-        messageNumber = bookOrMovie ? BOOK : MOVIE;
-        messageNumber += option ? CHECK_OUT : RETURN;
-        messageNumber += isSuccessful ? SUCCESSFUL : UNSUCCESSFUL;
-        System.out.println(message[messageNumber]);
-    }
-
-    public static void LogInOrOut(boolean option, boolean isSuccessful) {
-        int messageNumber;
-        messageNumber = option ? LOG_IN : LOG_OUT;
-        messageNumber += isSuccessful ? SUCCESSFUL : UNSUCCESSFUL;
-        System.out.println(message[messageNumber]);
+    public static void show(int option) {
+        System.out.println(message[option]);
     }
 
     public static void mainMenu() {
@@ -61,33 +41,17 @@ public class ShowMessage {
         System.out.println("input \"7\" to return a movie.");
         System.out.println("input \"8\" to log in.");
         System.out.println("input \"9\" to log out.");
-        System.out.println("input \"a\" to show user information.");
+        System.out.println("input \"10\" to show user information.");
         System.out.println("input \"0\" to quit the application.");
     }
 
-    public static void bookList() {
+    public static void bookList(Library library) {
         System.out.println("Here are the valid books:");
-        for (BookOrMovie item : Library.books)
-            item.getBookInformation();
+        library.getBooks();
     }
 
-    public static void movieList() {
+    public static void movieList(Library library) {
         System.out.println("Here are the valid movies:");
-        for (BookOrMovie item : Library.movies)
-            item.getMovieInformation();
+        library.getMovies();
     }
-
-    public static void userInformation(User user) {
-        System.out.println("Here is your information:");
-        user.getUserInformation();
-    }
-
-    private static final int BOOK = 3;
-    private static final int MOVIE = 7;
-    private static final int CHECK_OUT = 0;
-    private static final int RETURN = 2;
-    private static final int SUCCESSFUL = 2;
-    private static final int UNSUCCESSFUL = 2;
-    private static final int LOG_IN = 11;
-    private static final int LOG_OUT = 13;
 }
